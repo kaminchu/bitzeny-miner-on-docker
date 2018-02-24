@@ -10,7 +10,7 @@ RUN             apt-get update -qq && \
                 make && \
                 apt-get clean && \
                 rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
-                ls | grep -v -E 'minerd$' | xargs rm -r
+                ls | grep -v -E 'minerd' | xargs rm -r
 
 WORKDIR         /cpuminer
 ENTRYPOINT      ["./minerd"]
