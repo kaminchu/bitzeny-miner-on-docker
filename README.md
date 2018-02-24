@@ -1,0 +1,1 @@
+# bitzeny-miner-on-docker
