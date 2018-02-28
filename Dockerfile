@@ -1,16 +1,18 @@
-FROM            ubuntu:devel
+FROM gcc:7.3.0
 
-RUN             apt-get update -qq && \
-                apt-get upgrade -y && \
-                apt-get install -qqy gcc libcurl4-openssl-dev automake git make && \
-                git clone https://github.com/macchky/cpuminer.git && \
-                cd cpuminer && \
-                ./autogen.sh && \
-                ./configure CFLAGS="-O3 -march=native" && \
-                make && \
-                apt-get clean && \
-                rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
-                ls | grep -v -E 'minerd' | xargs rm -r
+RUN apt-get update -qq && apt-get install -y \
+    make \
+    automake \
+    libcurl4-openssl-dev \
+&& git clone -b v2.6.0 https://github.com/macchky/cpuminer.git \
+&& cd cpuminer \
+&& ./autogen.sh \
+&& ./configure CFLAGS="-O3 -march=native" \
+&& make \
+&& apt-get clean \
+&& apt-get purge -y git \
+&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+&& ls | grep -v -E 'minerd' | xargs rm -r
 
 WORKDIR         /cpuminer
 ENTRYPOINT      ["./minerd"]
